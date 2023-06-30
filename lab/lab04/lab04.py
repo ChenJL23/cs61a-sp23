@@ -23,7 +23,7 @@ def summation(n, term):
     if n == 1:
         return term(1)
     else:
-        return term(n - 1) + term(n - 2)
+        return summation(n - 1, term) + term(n)
 
 
 def paths(m, n):
@@ -40,6 +40,10 @@ def paths(m, n):
     1
     """
     "*** YOUR CODE HERE ***"
+    if m == 1 or n == 1:
+        return 1
+    else:
+        return paths(m - 1, n) + paths(m, n - 1)
 
 
 def pascal(row, column):
@@ -55,6 +59,12 @@ def pascal(row, column):
     6
     """
     "*** YOUR CODE HERE ***"
+    if row < column:
+        return 0
+    elif row == column or column == 0:
+        return 1
+    else:
+        return pascal(row - 1, column) + pascal(row - 1, column - 1)
 
 
 def double_eights(n):
@@ -79,3 +89,9 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return False
+    if n % 10 == 8 and n // 10 % 10 == 8:
+        return True
+    else:
+        return double_eights(n // 10)
