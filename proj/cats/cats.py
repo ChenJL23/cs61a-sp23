@@ -4,7 +4,6 @@ from utils import lower, split, remove_punctuation, lines_from_file
 from ucb import main, interact, trace
 from datetime import datetime
 
-
 ###########
 # Phase 1 #
 ###########
@@ -31,6 +30,20 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    count = 0
+    for str in paragraphs:
+        if select(str):
+            if count == k:
+                return str
+            count += 1
+    return ''
+    """     
+    picked_paragraphs = [i for i in paragraphs if select(i)]
+    if k > len(picked_paragraphs) - 1:
+        return ''
+    else:
+        return picked_paragraphs[k]
+    """
     # END PROBLEM 1
 
 
@@ -47,9 +60,19 @@ def about(subject):
     >>> pick(['Cute Dog!', 'That is a cat.', 'Nice pup.'], about_dogs, 1)
     'Nice pup.'
     """
-    assert all([lower(x) == x for x in subject]), 'subjects should be lowercase.'
+    assert all([lower(x) == x
+                for x in subject]), 'subjects should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+
+    def check_about(strings):
+        ls = split(lower(remove_punctuation(strings)))
+        for str in ls:
+            if str in subject:
+                return True
+        return False
+
+    return check_about
     # END PROBLEM 2
 
 
@@ -104,6 +127,7 @@ def wpm(typed, elapsed):
 ###########
 # Phase 2 #
 ###########
+
 
 def autocorrect(typed_word, word_list, diff_function, limit):
     """Returns the element of WORD_LIST that has the smallest difference
@@ -197,7 +221,6 @@ def final_diff(typed, source, limit):
 
 FINAL_DIFF_LIMIT = 6  # REPLACE THIS WITH YOUR LIMIT
 
-
 ###########
 # Phase 3 #
 ###########
@@ -268,8 +291,10 @@ def fastest_words(match):
     >>> p1
     [4, 1, 6]
     """
-    player_indices = range(len(get_all_times(match)))  # contains an *index* for each player
-    word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
+    player_indices = range(len(
+        get_all_times(match)))  # contains an *index* for each player
+    word_indices = range(len(
+        get_all_words(match)))  # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
     # END PROBLEM 10
@@ -288,23 +313,30 @@ def match(words, times):
         words: ['Hello', 'world']
         times: [[5, 1], [4, 2]]
     """
-    assert all([type(w) == str for w in words]), 'words should be a list of strings'
-    assert all([type(t) == list for t in times]), 'times should be a list of lists'
-    assert all([isinstance(i, (int, float)) for t in times for i in t]), 'times lists should contain numbers'
-    assert all([len(t) == len(words) for t in times]), 'There should be one word per time.'
+    assert all([type(w) == str
+                for w in words]), 'words should be a list of strings'
+    assert all([type(t) == list
+                for t in times]), 'times should be a list of lists'
+    assert all([isinstance(i, (int, float)) for t in times
+                for i in t]), 'times lists should contain numbers'
+    assert all([len(t) == len(words)
+                for t in times]), 'There should be one word per time.'
     return {"words": words, "times": times}
 
 
 def get_word(match, word_index):
     """A utility function that gets the word with index word_index"""
-    assert 0 <= word_index < len(get_all_words(match)), "word_index out of range of words"
+    assert 0 <= word_index < len(
+        get_all_words(match)), "word_index out of range of words"
     return get_all_words(match)[word_index]
 
 
 def time(match, player_num, word_index):
     """A utility function for the time it took player_num to type the word at word_index"""
-    assert word_index < len(get_all_words(match)), "word_index out of range of words"
-    assert player_num < len(get_all_times(match)), "player_num out of range of players"
+    assert word_index < len(
+        get_all_words(match)), "word_index out of range of words"
+    assert player_num < len(
+        get_all_times(match)), "player_num out of range of players"
     return get_all_times(match)[player_num][word_index]
 
 
@@ -343,7 +375,9 @@ def run_typing_test(topics):
             print('No more paragraphs about', topics, 'are available.')
             return
         print('Type the following paragraph and then press enter/return.')
-        print('If you only type part of it, you will be scored only on that part.\n')
+        print(
+            'If you only type part of it, you will be scored only on that part.\n'
+        )
         print(source)
         print()
 
