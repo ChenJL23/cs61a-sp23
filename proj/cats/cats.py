@@ -103,6 +103,17 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    t_len, s_len = len(typed_words), len(source_words)
+    if t_len == 0 and s_len == 0:
+        return 100.0
+    elif t_len == 0 or s_len == 0:
+        return 0.0
+    else:
+        count = 0
+        for i in range(min(t_len, s_len)):
+            if typed_words[i] == source_words[i]:
+                count += 1
+        return count * 100.0 / t_len
     # END PROBLEM 3
 
 
@@ -121,6 +132,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    return len(typed) / 5 * (60 / elapsed)
     # END PROBLEM 4
 
 
@@ -149,6 +161,19 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+
+    if typed_word in word_list:
+        return typed_word
+    else:
+        words = [
+            word for word in word_list
+            if diff_function(typed_word, word, limit) <= limit
+        ]  #将符合条件的字符串加入数组
+        if len(words) == 0:
+            return typed_word
+        else:
+            return min(words,
+                       key=lambda word: diff_function(typed_word, word, limit))
     # END PROBLEM 5
 
 
