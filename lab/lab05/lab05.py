@@ -25,6 +25,13 @@ def flatten(s):
     [[1, [1, [1, [1, 1, [1, 1, [1]]]], 1]]]
     """
     "*** YOUR CODE HERE ***"
+    num_list = []
+    for i in s:
+        if type(i) != list:
+            num_list += [i]
+        else:
+            num_list += flatten(i)
+    return num_list
 
 
 def my_map(fn, seq):
@@ -39,7 +46,7 @@ def my_map(fn, seq):
     2023
     [None, None, None]
     """
-    return ______
+    return [fn(x) for x in seq]
 
 
 def my_filter(pred, seq):
@@ -58,7 +65,7 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return ______
+    return [pred(x) for x in seq]
 
 
 def my_reduce(combiner, seq):
@@ -74,6 +81,13 @@ def my_reduce(combiner, seq):
     11
     """
     "*** YOUR CODE HERE ***"
+    if len(seq) == 1:
+        return seq[0]
+    else:
+        result = seq[0]
+        for num in seq[1:]:
+            result = combiner(result, num)
+        return result
 
 
 def my_map_syntax_check():
@@ -113,6 +127,9 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    lat = get_lat(city_a) - get_lat(city_b)
+    lon = get_lon(city_a) - get_lon(city_b)
+    return sqrt(lat**2 + lon**2)
 
 
 def closer_city(lat, lon, city_a, city_b):
@@ -131,6 +148,10 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    city = make_city('city', lat, lon)
+    if distance(city, city_a) > distance(city, city_b):
+        return get_name(city_b)
+    return get_name(city_a)
 
 
 def check_city_abstraction():
@@ -155,6 +176,7 @@ def check_city_abstraction():
     'Bucharest'
     >>> change_abstraction(False)
     """
+
 
 # Treat all the following code as being behind an abstraction layer,
 # you shouldn't need to look at it.
@@ -210,6 +232,7 @@ def get_lon(city):
         return city["lon"]
     else:
         return city[2]
+
 
 ###############
 
