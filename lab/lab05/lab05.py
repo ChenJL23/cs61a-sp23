@@ -65,7 +65,7 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return [pred(x) for x in seq]
+    return [x for x in seq if pred(x)]
 
 
 def my_reduce(combiner, seq):
@@ -244,7 +244,11 @@ def count_palindromes(L):
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
+    count = 0
+    for word in L:
+        if word.lower() == word.lower()[::-1]:
+            count += 1
+    return count
 
 
 def coords(fn, seq, lower, upper):
@@ -255,7 +259,7 @@ def coords(fn, seq, lower, upper):
     [[-2, 4], [1, 1], [3, 9]]
     """
     "*** YOUR CODE HERE ***"
-    return ______
+    return [[num, fn(num)] for num in seq if lower <= fn(num) <= upper]
 
 
 def change_abstraction(change):
